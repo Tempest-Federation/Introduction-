@@ -614,3 +614,11 @@ h2 {
   }
 
   }
+
+.page-indicator,
+.page-number,
+.page-counter,
+#pageIndicator,
+#pageNumber {
+    display: none !important;
+}
