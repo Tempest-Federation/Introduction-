@@ -1,46 +1,46 @@
-/* =========================================
-   TEMPEST FEDERATION
-   PAGE + MUSIC + SNOW
-========================================= */
+const pages = document.querySelectorAll(".page");
+
+const music = document.getElementById("bgMusic");
+
+let currentPage = 0;
+
+let changing = false;
 
 
 /* ================= MUSIC ================= */
 
-const music = document.getElementById("bgMusic");
-
 music.loop = true;
-
-
-/* Start music after user presses Enter */
 
 function startWebsite() {
 
-  music.volume = 0.65;
+  music.volume = 0.8;
 
-  music.play().catch(function(error) {
-    console.log("Music could not start:", error);
-  });
+  music.currentTime = 0;
+
+  music.play()
+    .then(() => {
+      console.log("Music started successfully");
+    })
+    .catch((error) => {
+      console.log("Music error:", error);
+    });
 
   nextPage();
 }
 
 
-/* If song ends, restart it */
+/* Extra protection for looping */
 
-music.addEventListener("ended", function() {
+music.addEventListener("ended", () => {
+
   music.currentTime = 0;
-  music.play();
+
+  music.play().catch(() => {});
+
 });
 
 
-/* ================= PAGE SYSTEM ================= */
-
-const pages = document.querySelectorAll(".page");
-
-let currentPage = 0;
-
-let isChanging = false;
-
+/* ================= PAGE NAVIGATION ================= */
 
 function showPage(index) {
 
@@ -48,38 +48,38 @@ function showPage(index) {
     return;
   }
 
-  if (isChanging) {
+  if (changing || index === currentPage) {
     return;
   }
 
-  if (index === currentPage) {
-    return;
-  }
-
-  isChanging = true;
+  changing = true;
 
   const oldPage = pages[currentPage];
+
   const newPage = pages[index];
 
   oldPage.classList.remove("active");
+
   oldPage.classList.add("prev");
 
   newPage.classList.remove("prev");
+
   newPage.classList.add("active");
 
   currentPage = index;
 
-  setTimeout(function() {
+  setTimeout(() => {
 
     oldPage.classList.remove("prev");
 
-    isChanging = false;
+    changing = false;
 
-  }, 750);
+  }, 700);
+
 }
 
 
-/* Next page */
+/* NEXT */
 
 function nextPage() {
 
@@ -92,7 +92,7 @@ function nextPage() {
 }
 
 
-/* Previous page */
+/* PREVIOUS */
 
 function previousPage() {
 
@@ -105,142 +105,101 @@ function previousPage() {
 }
 
 
-/* ================= TOUCH SWIPE ================= */
-
-let touchStartX = 0;
-let touchStartY = 0;
-
-
-document.addEventListener("touchstart", function(event) {
-
-  touchStartX = event.changedTouches[0].screenX;
-  touchStartY = event.changedTouches[0].screenY;
-
-});
-
-
-document.addEventListener("touchend", function(event) {
-
-  const touchEndX = event.changedTouches[0].screenX;
-  const touchEndY = event.changedTouches[0].screenY;
-
-  const differenceX = touchEndX - touchStartX;
-  const differenceY = touchEndY - touchStartY;
-
-
-  /* Ignore vertical scrolling */
-
-  if (Math.abs(differenceY) > Math.abs(differenceX)) {
-    return;
-  }
-
-
-  /* Swipe left */
-
-  if (differenceX < -70) {
-
-    nextPage();
-
-  }
-
-
-  /* Swipe right */
-
-  if (differenceX > 70) {
-
-    previousPage();
-
-  }
-
-});
-
-
 /* ================= KEYBOARD ================= */
 
-document.addEventListener("keydown", function(event) {
+document.addEventListener("keydown", (event) => {
 
   if (event.key === "ArrowRight") {
+
     nextPage();
+
   }
 
   if (event.key === "ArrowLeft") {
+
     previousPage();
+
   }
 
 });
 
 
-/* ================= SNOW ================= */
+/* ================= SWIPE ================= */
 
-const snowContainer = document.getElementById("snow");
-
-const snowCount = 45;
-
-
-for (let i = 0; i < snowCount; i++) {
-
-  const snowflake = document.createElement("div");
-
-  snowflake.className = "snowflake";
+let startX = 0;
+let startY = 0;
 
 
-  const size =
-    Math.random() * 4 + 2;
+document.addEventListener("touchstart", (event) => {
 
-  const left =
-    Math.random() * 100;
+  startX = event.changedTouches[0].screenX;
 
-  const duration =
-    Math.random() * 8 + 7;
+  startY = event.changedTouches[0].screenY;
 
-  const delay =
-    Math.random() * -15;
+});
 
 
-  snowflake.style.width =
-    size + "px";
+document.addEventListener("touchend", (event) => {
 
-  snowflake.style.height =
-    size + "px";
+  const endX = event.changedTouches[0].screenX;
 
-  snowflake.style.left =
-    left + "%";
+  const endY = event.changedTouches[0].screenY;
 
-  snowflake.style.animationDuration =
-    duration + "s";
+  const diffX = endX - startX;
 
-  snowflake.style.animationDelay =
-    delay + "s";
+  const diffY = endY - startY;
 
 
-  snowContainer.appendChild(snowflake);
+  /* Don't interfere with vertical scrolling */
 
-}
-
-
-/* ================= PREVENT PAGE SCROLL ================= */
-
-/*
-   Pages themselves can scroll when content
-   becomes taller than the phone screen.
-*/
-
-document.addEventListener("wheel", function(event) {
-
-  const activePage =
-    document.querySelector(".page.active");
-
-  if (!activePage) return;
-
-  if (
-    activePage.scrollHeight >
-    activePage.clientHeight
-  ) {
-
-    /* allow normal scrolling */
+  if (Math.abs(diffY) > Math.abs(diffX)) {
 
     return;
 
   }
 
+
+  if (diffX < -70) {
+
+    nextPage();
+
+  }
+
+
+  if (diffX > 70) {
+
+    previousPage();
+
+  }
+
 });
+
+
+/* ================= BLUE SNOW ================= */
+
+const snow = document.getElementById("snow");
+
+for (let i = 0; i < 50; i++) {
+
+  const flake = document.createElement("div");
+
+  flake.className = "snowflake";
+
+  const size = Math.random() * 4 + 2;
+
+  flake.style.width = size + "px";
+
+  flake.style.height = size + "px";
+
+  flake.style.left =
+    Math.random() * 100 + "%";
+
+  flake.style.animationDuration =
+    Math.random() * 8 + 7 + "s";
+
+  flake.style.animationDelay =
+    Math.random() * -15 + "s";
+
+  snow.appendChild(flake);
+
+}
