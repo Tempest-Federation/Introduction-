@@ -1,203 +1,246 @@
-/* =========================
-   PAGE SYSTEM
-========================= */
+/* =========================================
+   TEMPEST FEDERATION
+   PAGE + MUSIC + SNOW
+========================================= */
 
-let currentPage = 0;
 
-const pages = document.querySelectorAll(".page");
-
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
-
-const pageNumber = document.getElementById("pageNumber");
+/* ================= MUSIC ================= */
 
 const music = document.getElementById("bgMusic");
 
+music.loop = true;
 
-/* =========================
-   SHOW PAGE
-========================= */
+
+/* Start music after user presses Enter */
+
+function startWebsite() {
+
+  music.volume = 0.65;
+
+  music.play().catch(function(error) {
+    console.log("Music could not start:", error);
+  });
+
+  nextPage();
+}
+
+
+/* If song ends, restart it */
+
+music.addEventListener("ended", function() {
+  music.currentTime = 0;
+  music.play();
+});
+
+
+/* ================= PAGE SYSTEM ================= */
+
+const pages = document.querySelectorAll(".page");
+
+let currentPage = 0;
+
+let isChanging = false;
+
 
 function showPage(index) {
 
-    if (index < 0) {
-        index = 0;
-    }
+  if (index < 0 || index >= pages.length) {
+    return;
+  }
 
-    if (index >= pages.length) {
-        index = pages.length - 1;
-    }
+  if (isChanging) {
+    return;
+  }
 
-    currentPage = index;
+  if (index === currentPage) {
+    return;
+  }
 
+  isChanging = true;
 
-    pages.forEach((page, i) => {
+  const oldPage = pages[currentPage];
+  const newPage = pages[index];
 
-        page.classList.toggle(
-            "active",
-            i === currentPage
-        );
+  oldPage.classList.remove("active");
+  oldPage.classList.add("prev");
 
-    });
+  newPage.classList.remove("prev");
+  newPage.classList.add("active");
 
+  currentPage = index;
 
-    pageNumber.textContent =
-        String(currentPage + 1).padStart(2, "0")
-        + " / 03";
+  setTimeout(function() {
 
+    oldPage.classList.remove("prev");
 
-    prevBtn.disabled =
-        currentPage === 0;
+    isChanging = false;
 
-    nextBtn.disabled =
-        currentPage === pages.length - 1;
+  }, 750);
 }
 
 
-/* =========================
-   NEXT PAGE
-========================= */
+/* Next page */
 
 function nextPage() {
 
-    if (currentPage < pages.length - 1) {
+  if (currentPage < pages.length - 1) {
 
-        showPage(currentPage + 1);
+    showPage(currentPage + 1);
 
-    }
+  }
+
 }
 
 
-/* =========================
-   PREVIOUS PAGE
-========================= */
+/* Previous page */
 
 function previousPage() {
 
-    if (currentPage > 0) {
+  if (currentPage > 0) {
 
-        showPage(currentPage - 1);
+    showPage(currentPage - 1);
 
-    }
-}
-
-
-/* =========================
-   START EXPERIENCE
-========================= */
-
-function startExperience() {
-
-    /*
-       Browser allows music because
-       this function is triggered by
-       the user's button click.
-    */
-
-    music.volume = 0.65;
-
-    music.play().catch(() => {
-        console.log("Music waiting for browser permission.");
-    });
-
-
-    showPage(1);
-}
-
-
-/* =========================
-   SNOW PARTICLES
-========================= */
-
-const particleContainer =
-    document.getElementById("particles");
-
-
-function createSnow() {
-
-    const snow =
-        document.createElement("div");
-
-    snow.className = "snow";
-
-
-    const size =
-        Math.random() * 4 + 2;
-
-    snow.style.width =
-        size + "px";
-
-    snow.style.height =
-        size + "px";
-
-
-    snow.style.left =
-        Math.random() * 100 + "%";
-
-
-    snow.style.animationDuration =
-        Math.random() * 8 + 7 + "s";
-
-
-    snow.style.animationDelay =
-        Math.random() * 5 + "s";
-
-
-    snow.style.opacity =
-        Math.random() * 0.6 + 0.25;
-
-
-    particleContainer.appendChild(snow);
-
-
-    setTimeout(() => {
-
-        snow.remove();
-
-    }, 16000);
-}
-
-
-/* Keep creating particles */
-
-setInterval(createSnow, 250);
-
-
-/* Initial particles */
-
-for (let i = 0; i < 35; i++) {
-
-    createSnow();
+  }
 
 }
 
 
-/* =========================
-   KEYBOARD NAVIGATION
-========================= */
+/* ================= TOUCH SWIPE ================= */
 
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-        if (event.key === "ArrowRight") {
-
-            nextPage();
-
-        }
-
-        if (event.key === "ArrowLeft") {
-
-            previousPage();
-
-        }
-
-    }
-);
+let touchStartX = 0;
+let touchStartY = 0;
 
 
-/* =========================
-   INITIAL PAGE
-========================= */
+document.addEventListener("touchstart", function(event) {
 
-showPage(0);
+  touchStartX = event.changedTouches[0].screenX;
+  touchStartY = event.changedTouches[0].screenY;
+
+});
+
+
+document.addEventListener("touchend", function(event) {
+
+  const touchEndX = event.changedTouches[0].screenX;
+  const touchEndY = event.changedTouches[0].screenY;
+
+  const differenceX = touchEndX - touchStartX;
+  const differenceY = touchEndY - touchStartY;
+
+
+  /* Ignore vertical scrolling */
+
+  if (Math.abs(differenceY) > Math.abs(differenceX)) {
+    return;
+  }
+
+
+  /* Swipe left */
+
+  if (differenceX < -70) {
+
+    nextPage();
+
+  }
+
+
+  /* Swipe right */
+
+  if (differenceX > 70) {
+
+    previousPage();
+
+  }
+
+});
+
+
+/* ================= KEYBOARD ================= */
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "ArrowRight") {
+    nextPage();
+  }
+
+  if (event.key === "ArrowLeft") {
+    previousPage();
+  }
+
+});
+
+
+/* ================= SNOW ================= */
+
+const snowContainer = document.getElementById("snow");
+
+const snowCount = 45;
+
+
+for (let i = 0; i < snowCount; i++) {
+
+  const snowflake = document.createElement("div");
+
+  snowflake.className = "snowflake";
+
+
+  const size =
+    Math.random() * 4 + 2;
+
+  const left =
+    Math.random() * 100;
+
+  const duration =
+    Math.random() * 8 + 7;
+
+  const delay =
+    Math.random() * -15;
+
+
+  snowflake.style.width =
+    size + "px";
+
+  snowflake.style.height =
+    size + "px";
+
+  snowflake.style.left =
+    left + "%";
+
+  snowflake.style.animationDuration =
+    duration + "s";
+
+  snowflake.style.animationDelay =
+    delay + "s";
+
+
+  snowContainer.appendChild(snowflake);
+
+}
+
+
+/* ================= PREVENT PAGE SCROLL ================= */
+
+/*
+   Pages themselves can scroll when content
+   becomes taller than the phone screen.
+*/
+
+document.addEventListener("wheel", function(event) {
+
+  const activePage =
+    document.querySelector(".page.active");
+
+  if (!activePage) return;
+
+  if (
+    activePage.scrollHeight >
+    activePage.clientHeight
+  ) {
+
+    /* allow normal scrolling */
+
+    return;
+
+  }
+
+});
