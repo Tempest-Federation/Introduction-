@@ -1,239 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0,
-                   maximum-scale=1.0,
-                   user-scalable=no">
+  <title>Tempest Federation</title>
 
-    <title>Tempest Federation</title>
-
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Background particles -->
-    <div id="particles"></div>
+  <!-- Snow particles -->
+  <div id="snow"></div>
 
-    <!-- Music -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="music.mp3" type="audio/mpeg">
-    </audio>
+  <!-- MUSIC -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music/music.mp3" type="audio/mpeg">
+  </audio>
 
-    <!-- PAGE CONTAINER -->
-    <main id="app">
+  <main>
 
-        <!-- ================= PAGE 1 ================= -->
-        <section class="page active" id="page1">
+    <!-- ================= PAGE 1 ================= -->
+    <section class="page page1 active">
 
-            <div class="glass-card">
+      <div class="card welcome-card">
 
-                <div class="logo-image">
-                    <img src="rimuru.jpg" alt="Tempest Federation">
-                </div>
-
-                <div class="small-title">
-                    W E L C O M E
-                </div>
-
-                <h1>
-                    Tempest
-                    <span>Federation</span>
-                </h1>
-
-                <p class="intro">
-                    A place for anime, games, fun conversations
-                    and good memories.
-                </p>
-
-                <button class="main-btn" onclick="startExperience()">
-                    Enter Federation
-                    <span>→</span>
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PAGE 2 ================= -->
-        <section class="page" id="page2">
-
-            <div class="content-card">
-
-                <div class="small-title">
-                    T H E &nbsp; F E D E R A T I O N
-                </div>
-
-                <h2>
-                    Welcome to
-                    <span>Tempest Federation</span>
-                </h2>
-
-                <p class="description">
-                    Tempest Federation is an anime-based community
-                    made for people who enjoy games, anime,
-                    conversations and simply having a good time.
-                </p>
-
-                <div class="info-grid">
-
-                    <div class="info-box">
-                        <div class="icon">✦</div>
-
-                        <h3>Anime</h3>
-
-                        <p>
-                            Talk about anime, characters,
-                            theories and favourites.
-                        </p>
-                    </div>
-
-
-                    <div class="info-box">
-                        <div class="icon">♟</div>
-
-                        <h3>Games</h3>
-
-                        <p>
-                            Play, compete, chill and
-                            make memories together.
-                        </p>
-                    </div>
-
-
-                    <div class="info-box">
-                        <div class="icon">◇</div>
-
-                        <h3>Community</h3>
-
-                        <p>
-                            A welcoming space for
-                            different personalities.
-                        </p>
-                    </div>
-
-                </div>
-
-                <p class="bottom-line">
-                    Different people. Different interests.
-                    One Federation.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- ================= PAGE 3 ================= -->
-        <section class="page" id="page3">
-
-            <div class="content-card owner-card">
-
-                <div class="small-title">
-                    T H E &nbsp; O W N E R
-                </div>
-
-                <h2>
-                    Meet <span>Kitaryo</span>
-                </h2>
-
-                <div class="owner-image">
-                    <img src="rimuru.jpg" alt="Kitaryo">
-                </div>
-
-                <h3 class="owner-name">
-                    Kitaryo
-                </h3>
-
-                <p class="owner-description">
-                    Anime lover, gamer and the creator behind
-                    Tempest Federation.
-                </p>
-
-                <p class="owner-description">
-                    I created this server because I wanted to build
-                    my own federation — inspired by the idea of
-                    Rimuru's Tempest Federation.
-                </p>
-
-                <p class="owner-description">
-                    I enjoy anime, especially Dragon Ball,
-                    and I mostly play games like chess.
-                    I'm a quiet and introverted person,
-                    but I wanted to create a place where
-                    everyone can enjoy themselves together.
-                </p>
-
-
-                <!-- SOCIAL BUTTONS -->
-
-                <div class="social-buttons">
-
-                    <a
-                        href="https://www.instagram.com/kawase_fuyuki/"
-                        target="_blank"
-                        class="social-btn">
-
-                        <span>◎</span>
-                        Instagram
-                    </a>
-
-
-                    <a
-                        href="https://discord.gg/KxkUfqEH96"
-                        target="_blank"
-                        class="social-btn">
-
-                        <span>◈</span>
-                        Discord Server
-                    </a>
-
-                </div>
-
-
-                <div class="thank-you">
-                    Thank you for visiting
-                    <span>Tempest Federation.</span>
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- NAVIGATION -->
-
-    <div class="navigation">
-
-        <button
-            id="prevBtn"
-            onclick="previousPage()">
-
-            ←
-        </button>
-
-        <div id="pageNumber">
-            01 / 03
+        <!-- YOUR TF IMAGE -->
+        <div class="logo-box">
+          <img src="images/tf-logo.jpg" alt="Tempest Federation">
         </div>
 
-        <button
-            id="nextBtn"
-            onclick="nextPage()">
+        <div class="small-title">WELCOME</div>
 
-            →
+        <h1>
+          Tempest
+          <span>Federation</span>
+        </h1>
+
+        <p>
+          A place for anime, games, fun conversations
+          and good memories.
+          <br>
+          Welcome to the Federation.
+        </p>
+
+        <button class="main-btn" onclick="startWebsite()">
+          Enter Federation
+          <span>→</span>
         </button>
 
-    </div>
+      </div>
+
+      <div class="page-number">01 / 04</div>
+
+    </section>
 
 
-    <script src="script.js"></script>
+    <!-- ================= PAGE 2 ================= -->
+    <section class="page page2">
+
+      <div class="content">
+
+        <div class="small-title">THE FEDERATION</div>
+
+        <h2>
+          Welcome to
+          <span>Tempest Federation</span>
+        </h2>
+
+        <p class="description">
+          Tempest Federation is an anime-based community created
+          for people who enjoy anime, games, conversations and
+          simply having a good time together.
+        </p>
+
+        <p class="description">
+          The server has a slightly mature atmosphere, but one
+          thing stays important — everyone is treated equally.
+          Different personalities, different interests and
+          different people can all have their own place here.
+        </p>
+
+        <div class="info-grid">
+
+          <div class="info-card">
+            <div class="icon">✦</div>
+            <h3>Anime</h3>
+            <p>
+              Talk about anime, characters, theories,
+              favourite moments and everything you enjoy.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <div class="icon">♟</div>
+            <h3>Games</h3>
+            <p>
+              Play, compete, chill and make memories
+              with other members.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <div class="icon">◇</div>
+            <h3>Community</h3>
+            <p>
+              A place for different personalities,
+              interests and conversations.
+            </p>
+          </div>
+
+        </div>
+
+        <p class="quote">
+          Different people. Different interests.
+          <br>
+          One Federation.
+        </p>
+
+        <button class="next-btn" onclick="nextPage()">
+          Continue
+          <span>→</span>
+        </button>
+
+      </div>
+
+      <div class="page-number">02 / 04</div>
+
+    </section>
+
+
+    <!-- ================= PAGE 3 ================= -->
+    <section class="page page3">
+
+      <div class="content owner-content">
+
+        <div class="small-title">THE FOUNDER</div>
+
+        <h2>
+          About
+          <span>Kitaryo</span>
+        </h2>
+
+        <div class="owner-card">
+
+          <div class="owner-badge">
+            TF
+          </div>
+
+          <h3>Kitaryo</h3>
+
+          <p class="owner-role">
+            Founder • Tempest Federation
+          </p>
+
+          <div class="owner-info">
+
+            <div>
+              <strong>Name</strong>
+              <span>Kitaryo</span>
+            </div>
+
+            <div>
+              <strong>Discord</strong>
+              <span>kitaryo28</span>
+            </div>
+
+            <div>
+              <strong>Birthday</strong>
+              <span>28 May 2009</span>
+            </div>
+
+            <div>
+              <strong>Favourite Anime</strong>
+              <span>Dragon Ball</span>
+            </div>
+
+            <div>
+              <strong>Favourite Game</strong>
+              <span>Chess</span>
+            </div>
+
+          </div>
+
+          <p class="owner-text">
+            I don't really have a favourite colour, favourite food
+            or even a favourite thing. I simply enjoy anime and games,
+            especially chess.
+          </p>
+
+          <p class="owner-text">
+            I'm a shy and introverted person who enjoys living quietly.
+            Tempest Federation was created from a simple dream —
+            having my own federation, inspired by the kind of federation
+            Rimuru Tempest represents.
+          </p>
+
+          <p class="owner-text">
+            This server is my way of creating a place where people
+            can enjoy anime, games, conversations and good memories
+            together.
+          </p>
+
+        </div>
+
+        <button class="next-btn" onclick="nextPage()">
+          One Last Page
+          <span>→</span>
+        </button>
+
+      </div>
+
+      <div class="page-number">03 / 04</div>
+
+    </section>
+
+
+    <!-- ================= PAGE 4 ================= -->
+    <section class="page page4">
+
+      <div class="card ending-card">
+
+        <div class="small-title">THANK YOU</div>
+
+        <h2>
+          Thanks for
+          <span>visiting</span>
+        </h2>
+
+        <p>
+          Thank you for taking the time to visit
+          Tempest Federation.
+        </p>
+
+        <p>
+          If you enjoyed your stay, you're always
+          welcome to join us.
+        </p>
+
+        <div class="social-buttons">
+
+          <a
+            href="https://www.instagram.com/kawase_fuyuki?igsh=MWNrajU0amRhZ3FlNg=="
+            target="_blank"
+            class="social instagram"
+          >
+            <span>◎</span>
+            Instagram
+          </a>
+
+          <a
+            href="https://discord.gg/KxkUfqEH96"
+            target="_blank"
+            class="social discord"
+          >
+            <span>◈</span>
+            Discord Server
+          </a>
+
+        </div>
+
+        <div class="final-line">
+          TEMPest Federation
+        </div>
+
+        <div class="made">
+          Made with ✦ by Kitaryo
+        </div>
+
+      </div>
+
+      <div class="page-number">04 / 04</div>
+
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
 
 </body>
 </html>
